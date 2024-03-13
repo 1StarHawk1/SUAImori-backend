@@ -61,4 +61,10 @@ public class Title {
 
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
     private List<News> news = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "titles", fetch = FetchType.LAZY)
+    private List<UserList> userLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 }

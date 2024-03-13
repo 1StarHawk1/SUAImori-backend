@@ -16,6 +16,9 @@ public class Role implements GrantedAuthority {
     @Column
     private RoleType name;
 
+    public Role() {
+    }
+
     private String getName(){
         return this.name.toString();
     }

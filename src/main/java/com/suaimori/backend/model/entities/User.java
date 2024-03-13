@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Data
@@ -48,7 +47,34 @@ public class User implements UserDetails {
     private String description;
 
     @Column
+    private Sex sex;
 
+    @Column
+    private Boolean isAllowedNSFW;
+
+    @Column
+    private Date registrationDate;
+
+    @Column
+    private Boolean isBanned;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "club_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id"))
+    private List<Club> clubs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "requestSender", fetch = FetchType.LAZY)
+    private List<Friend> sentRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "requestReceiver", fetch = FetchType.LAZY)
+    private List<Friend> receivedRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserList> lists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,12 +83,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
