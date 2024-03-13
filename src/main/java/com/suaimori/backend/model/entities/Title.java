@@ -52,4 +52,13 @@ public class Title {
             joinColumns = @JoinColumn(name = "title_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "title_mediacompany",
+            joinColumns = @JoinColumn(name = "title_id"),
+            inverseJoinColumns = @JoinColumn(name = "media_company_id"))
+    private List<MediaCompany> mediaCompanies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
+    private List<News> news = new ArrayList<>();
 }
