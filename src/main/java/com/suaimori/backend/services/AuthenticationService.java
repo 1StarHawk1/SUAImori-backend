@@ -38,6 +38,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(userService.findRoleByName(RoleType.ROLE_RCF))
+                .role(userService.findRoleByName(RoleType.ROLE_AUTHORISED))
                 .build();
 
         userService.create(user);

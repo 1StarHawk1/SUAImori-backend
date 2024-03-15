@@ -87,16 +87,16 @@ public class UserService implements UserDetailsService {
      */
     @Deprecated
     public void getAdmin() {
-        var user = getCurrentUser();
-        Role adminRole = roleRepository.findByName(RoleType.ROLE_ADMIN);
-        if (adminRole == null) {
-            throw new IllegalArgumentException("Role not found");
-        }
-        user.getRoles().add(adminRole);
-        userRepository.save(user);
+//        var user = getCurrentUser();
+//        Role adminRole = roleRepository.findByName(RoleType.ROLE_ADMIN);
+//        if (adminRole == null) {
+//            throw new IllegalArgumentException("Role not found");
+//        }
+//        user.getRoles().add(adminRole);
+//        userRepository.save(user);
     }
 
     public Role findRoleByName(RoleType roleType) {
-        return roleRepository.findByName(roleType);
+        return roleRepository.findByName(roleType).orElseThrow(()-> new RuntimeException("Error: Role is not found."));
     }
 }

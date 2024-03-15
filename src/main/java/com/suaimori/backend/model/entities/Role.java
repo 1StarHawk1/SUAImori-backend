@@ -2,6 +2,7 @@ package com.suaimori.backend.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -13,18 +14,22 @@ public class Role implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Column
+    @Enumerated(EnumType.STRING)
     private RoleType name;
 
     public Role() {
     }
 
-    private String getName(){
-        return this.name.toString();
+    public Role(RoleType roleType) {
+        this.name = roleType;
     }
+
+
     @Override
     public String getAuthority() {
-        return getName();
+        return getName().toString();
     }
 
     public Role(Long id) {
