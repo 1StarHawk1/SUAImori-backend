@@ -2,7 +2,10 @@ package com.suaimori.backend.model.entities;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,9 +17,11 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name="users")
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -93,22 +98,57 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
+    public static class Builder {
+        private String username;
+        private String email;
+        private String password;
+        private List<Role> roles = new ArrayList<>();
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder role(Role role) {
+            this.roles.add(role);
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.username = this.username;
+            user.email = this.email;
+            user.password = this.password;
+            user.roles = this.roles;
+            return user;
+        }
+    }
 }
