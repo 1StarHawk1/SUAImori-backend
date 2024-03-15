@@ -52,6 +52,7 @@ public class User implements UserDetails {
     private String description;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Sex sex;
 
     @Column

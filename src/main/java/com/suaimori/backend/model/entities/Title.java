@@ -26,6 +26,7 @@ public class Title {
     private Integer itemCount; //Количество глав или серий
 
     @Column
+    @Enumerated(EnumType.STRING)
     private TitleStatus status; //Выходит, вышло или анонсированно
 
     @Column
@@ -42,6 +43,7 @@ public class Title {
     private Franchise franchise;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private TitleType type;
 
     @Column

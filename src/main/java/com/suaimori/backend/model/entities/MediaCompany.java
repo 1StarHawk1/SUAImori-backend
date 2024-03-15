@@ -22,6 +22,7 @@ public class MediaCompany {
     private String description;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private MediaCompanyType type;
 
     @ManyToMany(mappedBy = "mediaCompanies", fetch = FetchType.LAZY)
