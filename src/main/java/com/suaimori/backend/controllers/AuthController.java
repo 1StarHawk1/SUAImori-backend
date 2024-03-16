@@ -1,9 +1,9 @@
 package com.suaimori.backend.controllers;
 
-import com.suaimori.backend.dto.SignUpRequest;
-import com.suaimori.backend.dto.SignInRequest;
+import com.suaimori.backend.model.entities.dto.SignUpRequest;
+import com.suaimori.backend.model.entities.dto.SignInRequest;
 import com.suaimori.backend.services.AuthenticationService;
-import com.suaimori.backend.dto.JwtAuthenticationResponse;
+import com.suaimori.backend.model.entities.dto.JwtAuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

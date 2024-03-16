@@ -1,4 +1,4 @@
-package com.suaimori.backend.dto;
+package com.suaimori.backend.model.entities.dto;
 
 import com.suaimori.backend.model.entities.Sex;
 import lombok.Data;

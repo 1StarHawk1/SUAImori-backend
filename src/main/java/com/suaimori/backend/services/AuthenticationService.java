@@ -1,20 +1,15 @@
 package com.suaimori.backend.services;
 
-import com.suaimori.backend.dto.JwtAuthenticationResponse;
-import com.suaimori.backend.dto.SignInRequest;
-import com.suaimori.backend.dto.SignUpRequest;
-import com.suaimori.backend.services.AuthenticationService;
+import com.suaimori.backend.model.entities.dto.JwtAuthenticationResponse;
+import com.suaimori.backend.model.entities.dto.SignInRequest;
+import com.suaimori.backend.model.entities.dto.SignUpRequest;
 
 import com.suaimori.backend.model.entities.RoleType;
-import com.suaimori.backend.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

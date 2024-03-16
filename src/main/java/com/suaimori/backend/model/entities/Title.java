@@ -1,11 +1,17 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.AuthorForTitleDTO;
+import com.suaimori.backend.model.dto.MediaCompanyForTitleDTO;
+import com.suaimori.backend.model.dto.TitleDTO;
+import com.suaimori.backend.services.AuthorService;
+import com.suaimori.backend.services.MediaCompanyService;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -69,4 +75,37 @@ public class Title {
 
     @OneToMany(mappedBy = "title", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+
+    public Title(TitleDTO titleDTO){
+        this.setName(titleDTO.getName());
+        this.setPosterURL(titleDTO.getPosterURL());
+        this.setItemCount(titleDTO.getItemCount());
+        this.setStatus(titleDTO.getStatus());
+        this.setReleaseDate(titleDTO.getReleaseDate());
+        this.setComplitionDate(titleDTO.getComplitionDate());
+        this.setDescription(titleDTO.getDescription());
+        //this.setFranchise(titleDTO.getFranchise());
+        this.setType(titleDTO.getType());
+        this.setIsNSFW(titleDTO.getIsNSFW());
+
+        //this.setAuthors(convertToAuthorEntityList(titleDTO.getAuthors()));
+
+        //this.setMediaCompanies(convertToMediaCompanyEntityList(titleDTO.getMediaCompanies()));
+    }
+
+    public List<Author> convertToAuthorEntityList(List<AuthorForTitleDTO> authorForTitleDTOList) {
+        return authorForTitleDTOList.stream()
+                .map(AuthorForTitleDTO::convertToEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<MediaCompany> convertToMediaCompanyEntityList(List<MediaCompanyForTitleDTO> mediaCompanyForTitleDTOList) {
+        return mediaCompanyForTitleDTOList.stream()
+                .map(MediaCompanyForTitleDTO::convertToEntity)
+                .collect(Collectors.toList());
+    }
+
+    public Title() {
+    }
 }

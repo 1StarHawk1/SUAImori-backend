@@ -1,5 +1,6 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.AuthorDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -40,4 +41,17 @@ public class Author  {
 
     @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
     private List<Title> titles = new ArrayList<>();
+
+    public Author(AuthorDTO authorDTO){
+        this.setFirstName(authorDTO.getFirstName());
+        this.setSecondName(authorDTO.getSecondName());
+        this.setNickname(authorDTO.getNickname());
+        this.setBirthDate(authorDTO.getBirthDate());
+        this.setDeathDate(authorDTO.getDeathDate());
+        this.setInfo(authorDTO.getInfo());
+        this.setImageURL(authorDTO.getImageURL());
+    }
+
+    public Author() {
+    }
 }
