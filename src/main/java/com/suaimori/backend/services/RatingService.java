@@ -15,6 +15,9 @@ public class RatingService {
     private final RatingRepository ratingRepository;
 
     public void setRating(Rating rating, Title title, User user){
+        if(ratingRepository.findByUserAndTitle(user, title).isPresent()){
+            throw new RuntimeException("You already rated this title");
+        }
         rating.setUser(user);
         rating.setTitle(title);
         ratingRepository.save(rating);
