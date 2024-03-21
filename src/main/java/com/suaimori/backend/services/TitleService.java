@@ -55,6 +55,7 @@ public class TitleService {
         return titleRepository.save(title);
     }
 
+
     public Title findByName(String name){
         return titleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Title not found"));
     }

@@ -1,5 +1,6 @@
 package com.suaimori.backend.controllers;
 
+import com.suaimori.backend.model.dto.AddTitleToListRequest;
 import com.suaimori.backend.model.dto.UserListDTO;
 import com.suaimori.backend.model.entities.UserList;
 import com.suaimori.backend.services.UserListService;
@@ -25,6 +26,12 @@ public class UserListController {
     public ResponseEntity<?> createList(@RequestBody UserListDTO userListDTO) throws ChangeSetPersister.NotFoundException {
         //UserList userList = new UserList(userListDTO);
         userListService.create(userListDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/addTitle")
+    public ResponseEntity<?> addTitle(@RequestBody AddTitleToListRequest request) {
+        userListService.addTitle(request.getName(), request.getTitle());
         return ResponseEntity.ok().build();
     }
 
