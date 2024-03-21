@@ -1,7 +1,10 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.ClubDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "clubs")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Club {
 
     @Id
@@ -27,6 +32,16 @@ public class Club {
     @Column
     private Boolean isVisible;
 
-    @ManyToMany(mappedBy = "clubs", fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<>();
+//    @ManyToMany(mappedBy = "clubs", fetch = FetchType.LAZY)
+//    private List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    private List<ClubMember> clubMembers = new ArrayList<>();
+
+    public Club(ClubDTO clubDTO){
+        this.setName(clubDTO.getName());
+        this.setDescription(clubDTO.getDescription());
+        this.setImageURL(clubDTO.getImageURL());
+        this.setIsVisible(clubDTO.getIsVisible());
+    }
 }

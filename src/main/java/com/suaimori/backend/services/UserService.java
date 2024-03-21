@@ -99,4 +99,8 @@ public class UserService implements UserDetailsService {
     public Role findRoleByName(RoleType roleType) {
         return roleRepository.findByName(roleType).orElseThrow(()-> new RuntimeException("Error: Role is not found."));
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("Error: User is not found."));
+    }
 }
