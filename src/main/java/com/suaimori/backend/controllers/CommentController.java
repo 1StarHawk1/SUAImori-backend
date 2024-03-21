@@ -1,10 +1,11 @@
 package com.suaimori.backend.controllers;
 
-import com.suaimori.backend.model.dto.ClubDTO;
-import com.suaimori.backend.model.dto.ClubJoinRequest;
-import com.suaimori.backend.model.entities.Club;
+import com.suaimori.backend.model.dto.CommentDTO;
+import com.suaimori.backend.model.entities.Comment;
+import com.suaimori.backend.model.entities.Title;
 import com.suaimori.backend.model.entities.User;
-import com.suaimori.backend.services.ClubService;
+import com.suaimori.backend.services.CommentService;
+import com.suaimori.backend.services.TitleService;
 import com.suaimori.backend.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,27 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/club")
+@RequestMapping("/comment")
 @RequiredArgsConstructor
-public class ClubController {
+public class CommentController {
 
-    private final ClubService clubService;
+    private final CommentService commentService;
     private final UserService userService;
+    private final TitleService titleService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createClub(@Valid @RequestBody ClubDTO clubDTO) {
+    public ResponseEntity<?> createComment(@Valid @RequestBody CommentDTO commentDTO) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User creator = userService.findByUsername(userDetails.getUsername());
-        Club club = new Club(clubDTO);
-        clubService.create(club, creator);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("join")
-    public ResponseEntity<?> joinClub(@RequestBody ClubJoinRequest request) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findByUsername(userDetails.getUsername());
-        clubService.join(request.getName(), user);
+        Title title = titleService.findByName(commentDTO.getTitle().getName());
+        Comment comment = new Comment(commentDTO);
+        commentService.create(comment, title, creator);
         return ResponseEntity.ok().build();
     }
 }

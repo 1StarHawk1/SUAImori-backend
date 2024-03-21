@@ -47,8 +47,7 @@ public class SecurityConfig {
                 // Настройка доступа к конечным точкам
                 .authorizeHttpRequests(request -> request
                         // Можно указать конкретный путь, * - 1 уровень вложенности, ** - любое количество уровней вложенности
-                        .requestMatchers("/auth/**", "/franchise/**", "/author/**", "/media-company/**", "/title/**", "/list/**"
-                        , "/club/*").permitAll()
+                        .requestMatchers("/auth/**", "/franchise/**", "/author/**", "/media-company/**", "/title/**", "/list/**", "/club/*", "/comment/*").permitAll()
                         .requestMatchers("/endpoint", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
