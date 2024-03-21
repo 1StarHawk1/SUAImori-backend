@@ -1,12 +1,17 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.RatingDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ratings")
 @Data
 @IdClass(SerializableRatingId.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rating {
 
     @Id
@@ -24,5 +29,10 @@ public class Rating {
 
     @Column
     private Boolean isVisible;
+
+    public Rating(RatingDTO ratingDTO) {
+        this.value = ratingDTO.getValue();
+        this.isVisible = true;
+    }
 
 }
