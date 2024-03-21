@@ -1,5 +1,6 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.UserListDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,4 +33,10 @@ public class UserList {
             inverseJoinColumns = @JoinColumn(name = "title_id")
     )
     private List<Title> titles = new ArrayList<>();
+
+    public UserList(UserListDTO userListDTO) {
+        this.name = userListDTO.getName();
+        this.isVisible = userListDTO.getIsVisible();
+
+    }
 }

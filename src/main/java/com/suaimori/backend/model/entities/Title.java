@@ -94,17 +94,17 @@ public class Title {
         //this.setMediaCompanies(convertToMediaCompanyEntityList(titleDTO.getMediaCompanies()));
     }
 
-    public List<Author> convertToAuthorEntityList(List<AuthorForTitleDTO> authorForTitleDTOList) {
-        return authorForTitleDTOList.stream()
-                .map(AuthorForTitleDTO::convertToEntity)
-                .collect(Collectors.toList());
-    }
-
-    public List<MediaCompany> convertToMediaCompanyEntityList(List<MediaCompanyForTitleDTO> mediaCompanyForTitleDTOList) {
-        return mediaCompanyForTitleDTOList.stream()
-                .map(MediaCompanyForTitleDTO::convertToEntity)
-                .collect(Collectors.toList());
-    }
+//    public List<Author> convertToAuthorEntityList(List<AuthorForTitleDTO> authorForTitleDTOList) {
+//        return authorForTitleDTOList.stream()
+//                .map(AuthorForTitleDTO::convertToEntity)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<MediaCompany> convertToMediaCompanyEntityList(List<MediaCompanyForTitleDTO> mediaCompanyForTitleDTOList) {
+//        return mediaCompanyForTitleDTOList.stream()
+//                .map(MediaCompanyForTitleDTO::convertToEntity)
+//                .collect(Collectors.toList());
+//    }
 
     public Title() {
     }

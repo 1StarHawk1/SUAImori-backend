@@ -1,7 +1,9 @@
 package com.suaimori.backend.controllers;
 
-import com.suaimori.backend.model.dto.TitleDTO;
-import com.suaimori.backend.services.TitleService;
+import com.suaimori.backend.model.dto.UserListDTO;
+import com.suaimori.backend.model.entities.UserList;
+import com.suaimori.backend.services.UserListService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/title")
-@RequiredArgsConstructor
-public class TitleController {
+import java.util.List;
 
-    private final TitleService titleService;
+@RestController
+@RequestMapping("/list")
+@RequiredArgsConstructor
+public class UserListController {
+
+    private final UserListService userListService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTitle(@RequestBody TitleDTO titleDTO) throws ChangeSetPersister.NotFoundException {
-        //Title title = new Title(titleDTO);
-        titleService.create(titleDTO);
+    public ResponseEntity<?> createList(@RequestBody UserListDTO userListDTO) throws ChangeSetPersister.NotFoundException {
+        //UserList userList = new UserList(userListDTO);
+        userListService.create(userListDTO);
         return ResponseEntity.ok().build();
     }
+
 }
