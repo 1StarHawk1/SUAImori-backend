@@ -1,13 +1,18 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.ReviewDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Entity
 @Table(name = "reviews")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
 
 @Id
@@ -36,4 +41,11 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "title_id")
     private Title title;
+
+    public Review(ReviewDTO reviewDTO) {
+        this.content = reviewDTO.getContent();
+        this.isRecommended = reviewDTO.getIsRecommended();
+        this.publicationDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+        this.lastEditDate = java.sql.Date.valueOf(java.time.LocalDate.now());
+    }
 }
