@@ -12,11 +12,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommentService {
 
-        private final CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
-        public void create(Comment comment, Title title, User creator){
-            comment.setUser(creator);
-            comment.setTitle(title);
-            commentRepository.save(comment);
-        }
+    public void create(Comment comment, Title title, User creator){
+        comment.setUser(creator);
+        comment.setTitle(title);
+        commentRepository.save(comment);
+    }
+
+    public void delete(Long id){
+        commentRepository.deleteById(id);
+    }
+
+    public void hide(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found with id: " + id));
+        comment.setIsVisible(false);
+        commentRepository.save(comment);
+    }
+
+    public void show(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found with id: " + id));
+        comment.setIsVisible(true);
+        commentRepository.save(comment);
+    }
 }

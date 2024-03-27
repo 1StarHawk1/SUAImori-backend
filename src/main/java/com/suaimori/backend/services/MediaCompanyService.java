@@ -36,7 +36,10 @@ public class MediaCompanyService {
     }
 
     public MediaCompany convertToEntity(MediaCompanyDTO medaCompanyDTO) {
-        MediaCompany mediaCompany = new MediaCompany(medaCompanyDTO);
-        return mediaCompany;
+        return new MediaCompany(medaCompanyDTO);
+    }
+
+    public void delete(Long id){
+        mediaCompanyRepository.deleteById(id);
     }
 }

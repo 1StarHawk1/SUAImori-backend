@@ -2,6 +2,7 @@ package com.suaimori.backend.services;
 
 import com.suaimori.backend.model.dto.AuthorDTO;
 import com.suaimori.backend.model.entities.Author;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.suaimori.backend.repository.AuthorRepository;
@@ -40,5 +41,11 @@ public class AuthorService {
     public Author convertToEntity(AuthorDTO authorDTO) {
         Author author = new Author(authorDTO);
         return author;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        authorRepository.deleteAuthorWithTitles(id);
+        authorRepository.deleteById(id);
     }
 }

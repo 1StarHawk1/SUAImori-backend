@@ -59,4 +59,8 @@ public class TitleService {
     public Title findByName(String name){
         return titleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Title not found"));
     }
+
+    public void delete(Long id){
+        titleRepository.deleteById(id);
+    }
 }

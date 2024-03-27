@@ -20,4 +20,20 @@ public class ReviewService {
         review.setTitle(title);
         reviewRepository.save(review);
     }
+
+    public void delete(Long id){
+        reviewRepository.deleteById(id);
+    }
+
+    public void hide(Long id) {
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        review.setIsVisible(false);
+        reviewRepository.save(review);
+    }
+
+    public void show(Long id) {
+        Review review = reviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        review.setIsVisible(true);
+        reviewRepository.save(review);
+    }
 }

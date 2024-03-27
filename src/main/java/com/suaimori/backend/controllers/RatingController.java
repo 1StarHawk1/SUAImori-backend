@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rating")
@@ -33,6 +30,24 @@ public class RatingController {
         Title title = titleService.findByName(ratingDTO.getTitle().getName());
         Rating rating = new Rating(ratingDTO);
         ratingService.setRating(rating, title, creator);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/user/{userId}/title/{titleId}")
+    public ResponseEntity<?> deleteRating(@PathVariable Long userId, @PathVariable Long titleId) {
+        ratingService.delete(userId, titleId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/hide/user/{userId}/title/{titleId}")
+    public ResponseEntity<?> hideRating(@PathVariable Long userId, @PathVariable Long titleId) {
+        ratingService.hide(userId, titleId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/show/user/{userId}/title/{titleId}")
+    public ResponseEntity<?> showRating(@PathVariable Long userId, @PathVariable Long titleId) {
+        ratingService.show(userId, titleId);
         return ResponseEntity.ok().build();
     }
 }

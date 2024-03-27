@@ -39,7 +39,7 @@ public class Author  {
     @Column
     private String imageURL;
 
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "authors", fetch = FetchType.LAZY)
     private List<Title> titles = new ArrayList<>();
 
     public Author(AuthorDTO authorDTO){

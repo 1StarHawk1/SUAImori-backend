@@ -6,15 +6,13 @@ import com.suaimori.backend.model.entities.Club;
 import com.suaimori.backend.model.entities.User;
 import com.suaimori.backend.services.ClubService;
 import com.suaimori.backend.services.UserService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/club")
@@ -33,11 +31,26 @@ public class ClubController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("join")
+    @PostMapping("/join")
     public ResponseEntity<?> joinClub(@RequestBody ClubJoinRequest request) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findByUsername(userDetails.getUsername());
         clubService.join(request.getName(), user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/leave")
+    public ResponseEntity<?> leaveClub(@RequestBody ClubJoinRequest request) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+        clubService.leave(request.getName(), user);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteClub(@PathVariable Long id) {
+        clubService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

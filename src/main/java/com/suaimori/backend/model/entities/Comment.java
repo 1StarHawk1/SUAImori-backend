@@ -3,6 +3,7 @@ package com.suaimori.backend.model.entities;
 import com.suaimori.backend.model.dto.CommentDTO;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "comments")
 @Data
+@NoArgsConstructor
 public class Comment {
 
     @Id

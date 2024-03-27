@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class UserListDTO {
     private String name;
     private Boolean isVisible;
-    private UserForListDTO user;
+    //private UserForListDTO user;
 }

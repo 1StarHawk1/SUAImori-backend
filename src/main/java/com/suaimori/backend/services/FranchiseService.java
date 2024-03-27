@@ -26,4 +26,8 @@ public class FranchiseService {
         return franchiseRepository.findById(franchiseId)
                 .orElseThrow(() -> new RuntimeException("Franchise not found"));
     }
+
+    public void delete(Long id){
+        franchiseRepository.deleteById(id);
+    }
 }

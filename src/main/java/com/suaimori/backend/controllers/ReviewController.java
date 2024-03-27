@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/review")
@@ -35,6 +32,24 @@ public class ReviewController {
         Title title = titleService.findByName(reviewDTO.getTitle().getName());
         Review review = new Review(reviewDTO);
         reviewService.create(review, title, creator);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        reviewService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/hide/{id}")
+    public ResponseEntity<?> hideComment(@PathVariable Long id) {
+        reviewService.hide(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/show/{id}")
+    public ResponseEntity<?> showComment(@PathVariable Long id) {
+        reviewService.show(id);
         return ResponseEntity.ok().build();
     }
 }

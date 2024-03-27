@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/comment")
@@ -33,6 +30,24 @@ public class CommentController {
         Title title = titleService.findByName(commentDTO.getTitle().getName());
         Comment comment = new Comment(commentDTO);
         commentService.create(comment, title, creator);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id) {
+        commentService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/hide/{id}")
+    public ResponseEntity<?> hideComment(@PathVariable Long id) {
+        commentService.hide(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/show/{id}")
+    public ResponseEntity<?> showComment(@PathVariable Long id) {
+        commentService.show(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -6,10 +6,7 @@ import com.suaimori.backend.services.MediaCompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/media-company")
@@ -22,6 +19,12 @@ public class MediaCompanyController {
     public ResponseEntity<?> createMediaCompany(@Valid @RequestBody MediaCompanyDTO mediaCompanyDTO) {
         MediaCompany mediaCompany = new MediaCompany(mediaCompanyDTO);
         mediaCompanyService.create(mediaCompany);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteMediaCompany(@PathVariable Long id) {
+        mediaCompanyService.delete(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -5,10 +5,7 @@ import com.suaimori.backend.services.FranchiseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.suaimori.backend.model.entities.dto.FranchiseDTO;
 
 @RestController
@@ -23,6 +20,12 @@ public class FranchiseController {
         Franchise franchise = new Franchise();
         franchise.setName(franchiseDTO.getName());
         franchiseService.create(franchise);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteFranchise(@PathVariable Long id) {
+        franchiseService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
