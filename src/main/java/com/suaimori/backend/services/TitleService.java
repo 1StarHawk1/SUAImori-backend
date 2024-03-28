@@ -63,4 +63,9 @@ public class TitleService {
     public void delete(Long id){
         titleRepository.deleteById(id);
     }
+
+    public Title findById(Long titleId) {
+        return titleRepository.findById(titleId)
+                .orElseThrow(() -> new RuntimeException("Title not found"));
+    }
 }

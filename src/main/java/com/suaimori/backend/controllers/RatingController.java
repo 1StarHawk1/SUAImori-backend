@@ -33,6 +33,15 @@ public class RatingController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/update/user/{userId}/title/{titleId}")
+    public ResponseEntity<?> updateRating(@PathVariable Long userId, @PathVariable Long titleId, @Valid @RequestBody RatingDTO ratingDTO) {
+        User creator = userService.findById(userId);
+        Title title = titleService.findById(titleId);
+        Rating rating = new Rating(ratingDTO);
+        ratingService.update(rating, title, creator);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/delete/user/{userId}/title/{titleId}")
     public ResponseEntity<?> deleteRating(@PathVariable Long userId, @PathVariable Long titleId) {
         ratingService.delete(userId, titleId);

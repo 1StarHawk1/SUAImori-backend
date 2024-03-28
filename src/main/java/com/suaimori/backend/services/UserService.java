@@ -103,4 +103,8 @@ public class UserService implements UserDetailsService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("Error: User is not found."));
     }
+
+    public User findById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(()-> new RuntimeException("Error: User is not found."));
+    }
 }

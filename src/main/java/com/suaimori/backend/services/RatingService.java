@@ -47,4 +47,13 @@ public class RatingService {
         rating.setIsVisible(true);
         ratingRepository.save(rating);
     }
+
+    public void update(Rating rating, Title title, User creator) {
+        if(ratingRepository.findByUserAndTitle(creator, title).isEmpty()){
+            throw new RuntimeException("Rating not found");
+        }
+        rating.setUser(creator);
+        rating.setTitle(title);
+        ratingRepository.save(rating);
+    }
 }
