@@ -26,10 +26,15 @@ public class UserListController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createList(@RequestBody UserListDTO userListDTO) throws ChangeSetPersister.NotFoundException {
-        //UserList userList = new UserList(userListDTO);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User creator = userService.findByUsername(userDetails.getUsername());
         userListService.create(userListDTO, creator);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateList(@PathVariable Long id, @Valid @RequestBody UserListDTO userListDTO) {
+        userListService.update(id, userListDTO);
         return ResponseEntity.ok().build();
     }
 

@@ -47,4 +47,10 @@ public class UserListService {
     public void delete(Long id) {
         userListRepository.deleteById(id);
     }
+
+    public void update(Long id, UserListDTO userListDTO) {
+        UserList userList = userListRepository.findById(id).orElseThrow(() -> new RuntimeException("UserList not found"));
+        userList.setName(userListDTO.getName());
+        userListRepository.save(userList);
+    }
 }
