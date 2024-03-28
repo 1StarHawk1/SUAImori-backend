@@ -17,15 +17,19 @@ public class FranchiseController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createFranchise(@Valid @RequestBody FranchiseDTO franchiseDTO) {
-        Franchise franchise = new Franchise();
-        franchise.setName(franchiseDTO.getName());
-        franchiseService.create(franchise);
+        franchiseService.create(franchiseDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteFranchise(@PathVariable Long id) {
         franchiseService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateFranchise(@PathVariable Long id, @Valid @RequestBody FranchiseDTO franchiseDTO) {
+        franchiseService.update(id, franchiseDTO);
         return ResponseEntity.ok().build();
     }
 }

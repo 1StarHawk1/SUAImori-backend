@@ -2,6 +2,8 @@ package com.suaimori.backend.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.suaimori.backend.model.entities.dto.FranchiseDTO;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "franchaises")
 @Data
+@NoArgsConstructor
 public class Franchise {
 
     @Id
@@ -20,4 +23,11 @@ public class Franchise {
 
     @OneToMany(mappedBy = "franchise", fetch = FetchType.LAZY)
     private List<Title> titles = new ArrayList<>();
+
+    public Franchise(FranchiseDTO franchiseDTO) {
+        updateFromDto(franchiseDTO);
+    }
+    public void updateFromDto(com.suaimori.backend.model.entities.dto.FranchiseDTO franchiseDTO) {
+        this.name = franchiseDTO.getName();
+    }
 }
