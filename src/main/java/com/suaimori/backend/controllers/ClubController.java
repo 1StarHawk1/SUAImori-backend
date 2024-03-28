@@ -26,8 +26,7 @@ public class ClubController {
     public ResponseEntity<?> createClub(@Valid @RequestBody ClubDTO clubDTO) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User creator = userService.findByUsername(userDetails.getUsername());
-        Club club = new Club(clubDTO);
-        clubService.create(club, creator);
+        clubService.create(clubDTO, creator);
         return ResponseEntity.ok().build();
     }
 
@@ -51,6 +50,12 @@ public class ClubController {
     @Transactional
     public ResponseEntity<?> deleteClub(@PathVariable Long id) {
         clubService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateClub(@PathVariable Long id, @Valid @RequestBody ClubDTO clubDTO) {
+        clubService.update(id, clubDTO);
         return ResponseEntity.ok().build();
     }
 }

@@ -39,6 +39,10 @@ public class Club {
     private List<ClubMember> clubMembers = new ArrayList<>();
 
     public Club(ClubDTO clubDTO){
+        updateFromDto(clubDTO);
+    }
+
+    public void updateFromDto(ClubDTO clubDTO) {
         this.setName(clubDTO.getName());
         this.setDescription(clubDTO.getDescription());
         this.setImageURL(clubDTO.getImageURL());
