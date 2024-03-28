@@ -28,8 +28,7 @@ public class CommentController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User creator = userService.findByUsername(userDetails.getUsername());
         Title title = titleService.findByName(commentDTO.getTitle().getName());
-        Comment comment = new Comment(commentDTO);
-        commentService.create(comment, title, creator);
+        commentService.create(commentDTO, title, creator);
         return ResponseEntity.ok().build();
     }
 
@@ -48,6 +47,12 @@ public class CommentController {
     @PutMapping("/show/{id}")
     public ResponseEntity<?> showComment(@PathVariable Long id) {
         commentService.show(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CommentDTO commentDTO){
+        commentService.update(id, commentDTO);
         return ResponseEntity.ok().build();
     }
 }

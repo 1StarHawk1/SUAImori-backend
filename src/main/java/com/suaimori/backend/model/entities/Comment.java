@@ -43,4 +43,10 @@ public class Comment {
         this.publicationDate = java.sql.Date.valueOf(LocalDate.now());
         this.lastEditDate = java.sql.Date.valueOf(LocalDate.now());
     }
+
+    public void updateFromDto(CommentDTO commentDTO) {
+        this.content = commentDTO.getContent();
+        this.publicationDate = commentDTO.getPublicationDate();
+        this.lastEditDate = java.sql.Date.valueOf(LocalDate.now());
+    }
 }

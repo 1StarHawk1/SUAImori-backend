@@ -1,5 +1,6 @@
 package com.suaimori.backend.services;
 
+import com.suaimori.backend.model.dto.CommentDTO;
 import com.suaimori.backend.model.entities.Comment;
 import com.suaimori.backend.model.entities.Title;
 import com.suaimori.backend.model.entities.User;
@@ -14,7 +15,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public void create(Comment comment, Title title, User creator){
+    public void create(CommentDTO commentDTO, Title title, User creator){
+        Comment comment = new Comment(commentDTO);
         comment.setUser(creator);
         comment.setTitle(title);
         commentRepository.save(comment);
@@ -33,6 +35,12 @@ public class CommentService {
     public void show(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found with id: " + id));
         comment.setIsVisible(true);
+        commentRepository.save(comment);
+    }
+
+    public void update(Long id, CommentDTO commentDTO) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
+        comment.updateFromDto(commentDTO);
         commentRepository.save(comment);
     }
 }
