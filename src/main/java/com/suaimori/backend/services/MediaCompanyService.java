@@ -15,11 +15,12 @@ public class MediaCompanyService {
 
     private final MediaCompanyRepository mediaCompanyRepository;
 
-    public MediaCompany create(MediaCompany mediaCompany){
-        if(mediaCompanyRepository.findByName(mediaCompany.getName()).isPresent()){
+    public void create(MediaCompanyDTO mediaCompanyDTO){
+        if(mediaCompanyRepository.findByName(mediaCompanyDTO.getName()).isPresent()){
             throw new RuntimeException("Media Company already exists");
         }
-        return saveMediaCompany(mediaCompany);
+        MediaCompany mediaCompany = new MediaCompany(mediaCompanyDTO);
+        mediaCompanyRepository.save(mediaCompany);
     }
 
     public MediaCompany findById(Long id) {
@@ -31,15 +32,14 @@ public class MediaCompanyService {
         }
     }
 
-    private MediaCompany saveMediaCompany(MediaCompany mediaCompany) {
-        return mediaCompanyRepository.save(mediaCompany);
-    }
-
-    public MediaCompany convertToEntity(MediaCompanyDTO medaCompanyDTO) {
-        return new MediaCompany(medaCompanyDTO);
-    }
 
     public void delete(Long id){
         mediaCompanyRepository.deleteById(id);
+    }
+
+    public void update(Long id, MediaCompanyDTO mediaCompanyDTO) {
+        MediaCompany mediaCompany = findById(id);
+        mediaCompany.updateFromDto(mediaCompanyDTO);
+        mediaCompanyRepository.save(mediaCompany);
     }
 }

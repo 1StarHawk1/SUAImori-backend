@@ -17,14 +17,19 @@ public class MediaCompanyController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createMediaCompany(@Valid @RequestBody MediaCompanyDTO mediaCompanyDTO) {
-        MediaCompany mediaCompany = new MediaCompany(mediaCompanyDTO);
-        mediaCompanyService.create(mediaCompany);
+        mediaCompanyService.create(mediaCompanyDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteMediaCompany(@PathVariable Long id) {
         mediaCompanyService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateMediaCompany(@PathVariable Long id, @Valid @RequestBody MediaCompanyDTO mediaCompanyDTO) {
+        mediaCompanyService.update(id, mediaCompanyDTO);
         return ResponseEntity.ok().build();
     }
 }
