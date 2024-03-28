@@ -25,4 +25,10 @@ public class TitleController {
         titleService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateTitle(@PathVariable Long id, @RequestBody TitleDTO titleDTO) throws ChangeSetPersister.NotFoundException {
+        titleService.update(id, titleDTO);
+        return ResponseEntity.ok().build();
+    }
 }

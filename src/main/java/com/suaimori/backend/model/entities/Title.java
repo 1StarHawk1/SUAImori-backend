@@ -78,17 +78,8 @@ public class Title {
 
 
     public Title(TitleDTO titleDTO){
-        this.setName(titleDTO.getName());
-        this.setPosterURL(titleDTO.getPosterURL());
-        this.setItemCount(titleDTO.getItemCount());
-        this.setStatus(titleDTO.getStatus());
-        this.setReleaseDate(titleDTO.getReleaseDate());
-        this.setComplitionDate(titleDTO.getComplitionDate());
-        this.setDescription(titleDTO.getDescription());
+        updateFromDto(titleDTO);
         //this.setFranchise(titleDTO.getFranchise());
-        this.setType(titleDTO.getType());
-        this.setIsNSFW(titleDTO.getIsNSFW());
-
         //this.setAuthors(convertToAuthorEntityList(titleDTO.getAuthors()));
 
         //this.setMediaCompanies(convertToMediaCompanyEntityList(titleDTO.getMediaCompanies()));
@@ -107,5 +98,17 @@ public class Title {
 //    }
 
     public Title() {
+    }
+
+    public void updateFromDto(TitleDTO titleDTO) {
+        this.setName(titleDTO.getName());
+        this.setPosterURL(titleDTO.getPosterURL());
+        this.setItemCount(titleDTO.getItemCount());
+        this.setStatus(titleDTO.getStatus());
+        this.setReleaseDate(titleDTO.getReleaseDate());
+        this.setComplitionDate(titleDTO.getComplitionDate());
+        this.setDescription(titleDTO.getDescription());
+        this.setType(titleDTO.getType());
+        this.setIsNSFW(titleDTO.getIsNSFW());
     }
 }
