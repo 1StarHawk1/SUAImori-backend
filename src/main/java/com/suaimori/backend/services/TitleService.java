@@ -68,4 +68,31 @@ public class TitleService {
         return titleRepository.findById(titleId)
                 .orElseThrow(() -> new RuntimeException("Title not found"));
     }
+
+    public void update(Long id, TitleDTO titleDTO) {
+        Title title = findById(id);
+        title.updateFromDto(titleDTO);
+
+        List<Author> authors = new ArrayList<>();
+        for(AuthorForTitleDTO author: titleDTO.getAuthors()){
+            authors.add(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).orElseThrow(
+                    () -> new RuntimeException("Author not found")
+            ));
+        }
+        title.setAuthors(authors);
+
+        List<MediaCompany> mediaCompanies = new ArrayList<>();
+        for(MediaCompanyForTitleDTO mediaCompany: titleDTO.getMediaCompanies()){
+            mediaCompanies.add(mediaCompanyRepository.findByName(mediaCompany.getName()).orElseThrow(
+                    () -> new RuntimeException("Media Company not found")
+            ));
+        }
+        title.setMediaCompanies(mediaCompanies);
+
+        title.setFranchise(franchiseRepository.findByName(titleDTO.getFranchise().getName()).orElseThrow(
+                () -> new RuntimeException("Franchise not found")
+        ));
+
+        titleRepository.save(title);
+    }
 }
