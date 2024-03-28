@@ -15,14 +15,9 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
 
-    public Author create(Author author){
-        if(authorRepository.findByNickname(author.getNickname()).isPresent()){
-            throw new RuntimeException("Author already exists");
-        }
-        if(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).isPresent()){
-            throw new RuntimeException("Author already exists");
-        }
-        return saveAuthor(author);
+    public void create(AuthorDTO authorDTO){
+        Author author = new Author(authorDTO);
+        authorRepository.save(author);
     }
 
     public Author findById(Long id) {
@@ -34,18 +29,17 @@ public class AuthorService {
         }
     }
 
-    private Author saveAuthor(Author author) {
-        return authorRepository.save(author);
-    }
-
-    public Author convertToEntity(AuthorDTO authorDTO) {
-        Author author = new Author(authorDTO);
-        return author;
-    }
 
     @Transactional
     public void delete(Long id) {
         authorRepository.deleteAuthorWithTitles(id);
         authorRepository.deleteById(id);
+    }
+
+    public void update(Long id, AuthorDTO authorDTO) {
+        Author author = authorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Author not found with id: " + id));
+        author.updateFromDto(authorDTO);
+        authorRepository.save(author);
     }
 }

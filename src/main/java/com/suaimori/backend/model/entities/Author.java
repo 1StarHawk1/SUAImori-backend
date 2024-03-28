@@ -54,4 +54,14 @@ public class Author  {
 
     public Author() {
     }
+
+    public void updateFromDto(AuthorDTO authorDTO) {
+        this.setFirstName(authorDTO.getFirstName());
+        this.setSecondName(authorDTO.getSecondName());
+        this.setNickname(authorDTO.getNickname());
+        this.setBirthDate(authorDTO.getBirthDate());
+        this.setDeathDate(authorDTO.getDeathDate());
+        this.setInfo(authorDTO.getInfo());
+        this.setImageURL(authorDTO.getImageURL());
+    }
 }

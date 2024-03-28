@@ -19,14 +19,19 @@ public class AuthorController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createAuthor(@Valid @RequestBody AuthorDTO authorDTO) {
-        Author author = new Author(authorDTO);
-        authorService.create(author);
+        authorService.create(authorDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAuthor(@PathVariable Long id) {
         authorService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateAuthor(@PathVariable Long id, @Valid @RequestBody AuthorDTO authorDTO) {
+        authorService.update(id, authorDTO);
         return ResponseEntity.ok().build();
     }
 }
