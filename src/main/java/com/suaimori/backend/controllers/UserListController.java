@@ -38,9 +38,15 @@ public class UserListController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/addTitle")
+    @PutMapping("/addTitle")
     public ResponseEntity<?> addTitle(@RequestBody AddTitleToListRequest request) {
-        userListService.addTitle(request.getId(), request.getTitle());
+        userListService.addTitle(request.getListId(), request.getTitleId());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/removeTitle")
+    public ResponseEntity<?> removeTitle(@RequestBody AddTitleToListRequest request) {
+        userListService.removeTitle(request.getListId(), request.getTitleId());
         return ResponseEntity.ok().build();
     }
 

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddTitleToListRequest {
-    private Long id;
-    private String title;
+    private Long listId;
+    private Long titleId;
 }

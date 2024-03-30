@@ -26,9 +26,9 @@ public class UserListService {
         return userListRepository.save(userList);
     }
 
-    public void addTitle(Long Id, String title){
-        UserList userList = userListRepository.findById(Id).orElseThrow(() -> new RuntimeException("UserList not found"));
-        userList.addTitle(titleRepository.findByName(title).orElseThrow(() -> new RuntimeException("Title not found")));
+    public void addTitle(Long ListId, Long titleId){
+        UserList userList = userListRepository.findById(ListId).orElseThrow(() -> new RuntimeException("UserList not found"));
+        userList.addTitle(titleRepository.findById(titleId).orElseThrow(() -> new RuntimeException("Title not found")));
         userListRepository.save(userList);
     }
 
@@ -51,6 +51,12 @@ public class UserListService {
     public void update(Long id, UserListDTO userListDTO) {
         UserList userList = userListRepository.findById(id).orElseThrow(() -> new RuntimeException("UserList not found"));
         userList.setName(userListDTO.getName());
+        userListRepository.save(userList);
+    }
+
+    public void removeTitle(Long ListId, Long titleId) {
+        UserList userList = userListRepository.findById(ListId).orElseThrow(() -> new RuntimeException("UserList not found"));
+        userList.removeTitle(titleRepository.findById(titleId).orElseThrow(() -> new RuntimeException("Title not found")));
         userListRepository.save(userList);
     }
 }

@@ -45,4 +45,8 @@ public class UserList {
     public void addTitle(Title title){
         titles.add(title);
     }
+
+    public void removeTitle(Title title) {
+        titles.remove(title);
+    }
 }
