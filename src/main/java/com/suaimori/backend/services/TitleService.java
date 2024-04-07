@@ -126,4 +126,16 @@ public class TitleService {
     public List<Long> getAllId() {
         return titleRepository.findAllIds();
     }
+
+    public List<Long> getAllAnimeId() {
+        return titleRepository.findAllAnimeIds();
+    }
+
+    public List<Long> getAllMangaId() {
+        return titleRepository.findAllMangaIds();
+    }
+
+    public List<Long> getOngoingAnimeId() {
+        return titleRepository.findOngoingAnimeIds();
+    }
 }

@@ -15,4 +15,13 @@ public interface TitleRepository extends JpaRepository<Title, Long> {
     List<Title> findByType(TitleType type);
     @Query("SELECT t.id FROM Title t")
     List<Long> findAllIds();
+
+    @Query("SELECT t.id FROM Title t WHERE t.type = 'ANIME'")
+    List<Long> findAllAnimeIds();
+
+    @Query("SELECT t.id FROM Title t WHERE t.type = 'MANGA'")
+    List<Long> findAllMangaIds();
+
+    @Query("SELECT t.id FROM Title t WHERE t.type = 'ANIME' AND t.status = 'ONGOING'")
+    List<Long> findOngoingAnimeIds();
 }

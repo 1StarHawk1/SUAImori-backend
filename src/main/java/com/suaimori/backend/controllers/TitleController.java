@@ -34,6 +34,24 @@ public class TitleController {
         return ResponseEntity.ok(idOfAll);
     }
 
+    @GetMapping("/getallanimeids")
+    public ResponseEntity<?> getAnimeTitles() {
+        var idOfAll = titleService.getAllAnimeId();
+        return ResponseEntity.ok(idOfAll);
+    }
+
+    @GetMapping("/getallmangaids")
+    public ResponseEntity<?> getMangaTitles() {
+        var idOfAll = titleService.getAllMangaId();
+        return ResponseEntity.ok(idOfAll);
+    }
+
+    @GetMapping("/getongoinganimeids")
+    public ResponseEntity<?> getOngoingAnimeTitles() {
+        var idOfAll = titleService.getOngoingAnimeId();
+        return ResponseEntity.ok(idOfAll);
+    }
+
     public String convertTupleListToJson(List<Tuple> tuples) {
     ObjectMapper mapper = new ObjectMapper();
     Map<String, Object> jsonMap = new HashMap<>();
