@@ -1,12 +1,13 @@
 package com.suaimori.backend.controllers;
 
-import com.suaimori.backend.model.entities.dto.SignUpRequest;
-import com.suaimori.backend.model.entities.dto.SignInRequest;
+import com.suaimori.backend.model.dto.SignUpRequest;
+import com.suaimori.backend.model.dto.SignInRequest;
 import com.suaimori.backend.services.AuthenticationService;
-import com.suaimori.backend.model.entities.dto.JwtAuthenticationResponse;
+import com.suaimori.backend.model.dto.JwtAuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

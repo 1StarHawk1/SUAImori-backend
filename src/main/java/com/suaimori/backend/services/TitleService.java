@@ -10,6 +10,14 @@ import com.suaimori.backend.repository.AuthorRepository;
 import com.suaimori.backend.repository.FranchiseRepository;
 import com.suaimori.backend.repository.MediaCompanyRepository;
 import com.suaimori.backend.repository.TitleRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
 import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,12 +33,14 @@ public class TitleService {
     private final AuthorRepository authorRepository;
     private final MediaCompanyRepository mediaCompanyRepository;
     private final FranchiseRepository franchiseRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Title create(TitleDTO titleDTO) throws ChangeSetPersister.NotFoundException {
         Title title = new Title(titleDTO);
 
         List<Author> authors = new ArrayList<>();
-        for(AuthorForTitleDTO author: titleDTO.getAuthors()){
+        for (AuthorForTitleDTO author : titleDTO.getAuthors()) {
             authors.add(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).orElseThrow(
                     () -> new ChangeSetPersister.NotFoundException()
             ));
@@ -38,7 +48,7 @@ public class TitleService {
         title.setAuthors(authors);
 
         List<MediaCompany> mediaCompanies = new ArrayList<>();
-        for(MediaCompanyForTitleDTO mediaCompany: titleDTO.getMediaCompanies()){
+        for (MediaCompanyForTitleDTO mediaCompany : titleDTO.getMediaCompanies()) {
             mediaCompanies.add(mediaCompanyRepository.findByName(mediaCompany.getName()).orElseThrow(
                     () -> new ChangeSetPersister.NotFoundException()
             ));
@@ -49,18 +59,18 @@ public class TitleService {
                 () -> new ChangeSetPersister.NotFoundException()
         ));
 
-        if(titleRepository.findByName(title.getName()).isPresent() && titleRepository.findByType(title.getType()).contains(title)){
+        if (titleRepository.findByName(title.getName()).isPresent() && titleRepository.findByType(title.getType()).contains(title)) {
             throw new RuntimeException("Title already exists");
         }
         return titleRepository.save(title);
     }
 
 
-    public Title findByName(String name){
+    public Title findByName(String name) {
         return titleRepository.findByName(name).orElseThrow(() -> new RuntimeException("Title not found"));
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         titleRepository.deleteById(id);
     }
 
@@ -74,7 +84,7 @@ public class TitleService {
         title.updateFromDto(titleDTO);
 
         List<Author> authors = new ArrayList<>();
-        for(AuthorForTitleDTO author: titleDTO.getAuthors()){
+        for (AuthorForTitleDTO author : titleDTO.getAuthors()) {
             authors.add(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).orElseThrow(
                     () -> new RuntimeException("Author not found")
             ));
@@ -82,7 +92,7 @@ public class TitleService {
         title.setAuthors(authors);
 
         List<MediaCompany> mediaCompanies = new ArrayList<>();
-        for(MediaCompanyForTitleDTO mediaCompany: titleDTO.getMediaCompanies()){
+        for (MediaCompanyForTitleDTO mediaCompany : titleDTO.getMediaCompanies()) {
             mediaCompanies.add(mediaCompanyRepository.findByName(mediaCompany.getName()).orElseThrow(
                     () -> new RuntimeException("Media Company not found")
             ));
@@ -94,5 +104,26 @@ public class TitleService {
         ));
 
         titleRepository.save(title);
+    }
+
+    public List<Tuple> getTitle(Long id, List<String> fields) {
+        fields.add("id");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> cq = cb.createQuery(Tuple.class);
+        Root<Title> root = cq.from(Title.class);
+
+        List<Selection<?>> selections = new ArrayList<>();
+        for (String field : fields) {
+            selections.add(root.get(field).alias(field));
+        }
+        cq.multiselect(selections);
+        cq.where(cb.equal(root.get("id"), id));
+
+        TypedQuery<Tuple> query = entityManager.createQuery(cq);
+        return query.getResultList();
+    }
+
+    public List<Long> getAllId() {
+        return titleRepository.findAllIds();
     }
 }

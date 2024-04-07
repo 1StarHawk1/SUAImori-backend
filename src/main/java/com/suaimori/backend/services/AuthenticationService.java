@@ -1,8 +1,8 @@
 package com.suaimori.backend.services;
 
-import com.suaimori.backend.model.entities.dto.JwtAuthenticationResponse;
-import com.suaimori.backend.model.entities.dto.SignInRequest;
-import com.suaimori.backend.model.entities.dto.SignUpRequest;
+import com.suaimori.backend.model.dto.JwtAuthenticationResponse;
+import com.suaimori.backend.model.dto.SignInRequest;
+import com.suaimori.backend.model.dto.SignUpRequest;
 
 import com.suaimori.backend.model.entities.RoleType;
 import lombok.RequiredArgsConstructor;
