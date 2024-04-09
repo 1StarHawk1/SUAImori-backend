@@ -1,5 +1,6 @@
 package com.suaimori.backend.controllers;
 
+import com.suaimori.backend.helpers.JsonConverterHelper;
 import com.suaimori.backend.model.dto.ClubDTO;
 import com.suaimori.backend.model.dto.ClubJoinRequest;
 import com.suaimori.backend.model.entities.Club;
@@ -14,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/club")
@@ -22,6 +25,18 @@ public class ClubController {
 
     private final ClubService clubService;
     private final UserService userService;
+
+    @GetMapping("/getallids")
+    public ResponseEntity<?> getClubIds() {
+        var idOfAll = clubService.getAllId();
+        return ResponseEntity.ok(idOfAll);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getClub(@PathVariable Long id, @RequestParam List<String> fields) {
+        var club = clubService.getClub(id, fields);
+        return ResponseEntity.ok(JsonConverterHelper.convertTupleListToJson(club));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createClub(@Valid @RequestBody ClubDTO clubDTO) {

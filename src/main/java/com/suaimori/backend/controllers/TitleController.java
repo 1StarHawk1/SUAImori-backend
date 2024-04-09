@@ -3,6 +3,7 @@ package com.suaimori.backend.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suaimori.backend.model.dto.TitleDTO;
 import com.suaimori.backend.services.TitleService;
+import com.suaimori.backend.helpers.JsonConverterHelper;
 import jakarta.persistence.Tuple;
 import jakarta.persistence.TupleElement;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class TitleController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getTitle(@PathVariable Long id, @RequestParam List<String> fields) {
         var title = titleService.getTitle(id, fields);
-        return ResponseEntity.ok(convertTupleListToJson(title));
+        return ResponseEntity.ok(JsonConverterHelper.convertTupleListToJson(title));
     }
 
     @GetMapping("/getallids")
@@ -51,26 +52,6 @@ public class TitleController {
         var idOfAll = titleService.getOngoingAnimeId();
         return ResponseEntity.ok(idOfAll);
     }
-
-    public String convertTupleListToJson(List<Tuple> tuples) {
-    ObjectMapper mapper = new ObjectMapper();
-    Map<String, Object> jsonMap = new HashMap<>();
-
-    for (Tuple tuple : tuples) {
-        for (TupleElement<?> element : tuple.getElements()) {
-            jsonMap.put(element.getAlias(), tuple.get(element.getAlias()));
-        }
-    }
-
-    String json = "";
-    try {
-        json = mapper.writeValueAsString(jsonMap);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return json;
-}
 
     @PostMapping("")
     public ResponseEntity<?> createTitle(@RequestBody TitleDTO titleDTO) throws ChangeSetPersister.NotFoundException {
