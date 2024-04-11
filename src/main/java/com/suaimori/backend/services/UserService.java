@@ -2,9 +2,18 @@ package com.suaimori.backend.services;
 
 import com.suaimori.backend.model.entities.Role;
 import com.suaimori.backend.model.entities.RoleType;
+import com.suaimori.backend.model.entities.Title;
 import com.suaimori.backend.model.entities.User;
 import com.suaimori.backend.repository.RoleRepository;
 import com.suaimori.backend.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Tuple;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +21,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -106,5 +120,22 @@ public class UserService implements UserDetailsService {
 
     public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(()-> new RuntimeException("Error: User is not found."));
+    }
+
+    public List<Tuple> getUser(String username, List<String> fields) {
+        fields.add("username");
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Tuple> cq = cb.createQuery(Tuple.class);
+        Root<User> root = cq.from(User.class);
+
+        List<Selection<?>> selections = new ArrayList<>();
+        for (String field : fields) {
+            selections.add(root.get(field).alias(field));
+        }
+        cq.multiselect(selections);
+        cq.where(cb.equal(root.get("username"), username));
+
+        TypedQuery<Tuple> query = entityManager.createQuery(cq);
+        return query.getResultList();
     }
 }

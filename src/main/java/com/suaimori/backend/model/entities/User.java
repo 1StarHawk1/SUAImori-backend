@@ -64,12 +64,6 @@ public class User implements UserDetails {
     @Column
     private Boolean isBanned;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(	name = "club_user",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "club_id"))
-//    private List<Club> clubs = new ArrayList<>();
-
     @OneToMany(mappedBy = "requestSender", fetch = FetchType.LAZY)
     private List<Friend> sentRequests = new ArrayList<>();
 
