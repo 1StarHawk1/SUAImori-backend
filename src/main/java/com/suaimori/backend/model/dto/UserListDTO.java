@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserListDTO {
+    private Long id;
     private String name;
     private Boolean isVisible;
     //private UserForListDTO user;

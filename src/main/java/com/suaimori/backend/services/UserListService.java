@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserListService {
@@ -29,6 +31,7 @@ public class UserListService {
     public void addTitle(Long ListId, Long titleId){
         UserList userList = userListRepository.findById(ListId).orElseThrow(() -> new RuntimeException("UserList not found"));
         userList.addTitle(titleRepository.findById(titleId).orElseThrow(() -> new RuntimeException("Title not found")));
+
         userListRepository.save(userList);
     }
 
@@ -58,5 +61,9 @@ public class UserListService {
         UserList userList = userListRepository.findById(ListId).orElseThrow(() -> new RuntimeException("UserList not found"));
         userList.removeTitle(titleRepository.findById(titleId).orElseThrow(() -> new RuntimeException("Title not found")));
         userListRepository.save(userList);
+    }
+
+    public List<UserListDTO> getUserLists(String username) {
+        return userListRepository.getAllUserLists(username);
     }
 }

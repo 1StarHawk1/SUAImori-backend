@@ -8,11 +8,15 @@ import com.suaimori.backend.services.UserListService;
 import com.suaimori.backend.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,6 +28,12 @@ public class UserListController {
 
     private final UserListService userListService;
     private final UserService userService;
+
+    @GetMapping("/getuserlists/{username}")
+    public ResponseEntity<?> getUserLists(@PathVariable String username) {
+        var userLists = userListService.getUserLists(username);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(userLists);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createList(@RequestBody UserListDTO userListDTO) throws ChangeSetPersister.NotFoundException {
@@ -41,8 +51,12 @@ public class UserListController {
 
     @PutMapping("/addTitle")
     public ResponseEntity<?> addTitle(@RequestBody AddTitleToListRequest request) {
-        userListService.addTitle(request.getListId(), request.getTitleId());
-        return ResponseEntity.ok().build();
+        try {
+            userListService.addTitle(request.getListId(), request.getTitleId());
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Title already exists in the list");
+        }
     }
 
     @PutMapping("/removeTitle")

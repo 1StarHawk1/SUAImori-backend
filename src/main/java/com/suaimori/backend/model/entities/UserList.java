@@ -32,7 +32,8 @@ public class UserList {
     @JoinTable(
             name = "list_title",
             joinColumns = @JoinColumn(name = "list_id"),
-            inverseJoinColumns = @JoinColumn(name = "title_id")
+            inverseJoinColumns = @JoinColumn(name = "title_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"list_id", "title_id"})
     )
     private List<Title> titles = new ArrayList<>();
 
@@ -42,11 +43,17 @@ public class UserList {
 
     }
 
-    public void addTitle(Title title){
+    public void addTitle(Title title) {
         titles.add(title);
     }
 
     public void removeTitle(Title title) {
         titles.remove(title);
+    }
+
+    public UserList(Long id, Boolean isVisible, String name) {
+        this.id = id;
+        this.isVisible = isVisible;
+        this.name = name;
     }
 }
