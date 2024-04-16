@@ -1,5 +1,6 @@
 package com.suaimori.backend.model.entities;
 
+import com.suaimori.backend.model.dto.ClubDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,4 +22,13 @@ public class ClubMember {
 
     @Column
     private Boolean isAdmin;
+
+    public ClubDTO getClubDTO() {
+        return new ClubDTO(
+                club.getName(),
+                club.getDescription(),
+                club.getImageURL(),
+                club.getIsVisible()
+        );
+    }
 }

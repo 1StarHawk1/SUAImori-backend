@@ -31,8 +31,8 @@ public class ClubService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Club create(ClubDTO clubDTO, User creator){
-        if(clubRepository.findByName(clubDTO.getName()).isPresent()){
+    public Club create(ClubDTO clubDTO, User creator) {
+        if (clubRepository.findByName(clubDTO.getName()).isPresent()) {
             throw new RuntimeException("Club already exists");
         }
         Club club = new Club(clubDTO);
@@ -44,12 +44,12 @@ public class ClubService {
         clubMember.setUser(creator);
         clubMember.setIsAdmin(true);
 
-        clubMemberRepository.save(clubMember); // сохраните ClubMember
+        clubMemberRepository.save(clubMember);
 
         return savedClub;
     }
 
-    public void join(String name, User user){
+    public void join(String name, User user) {
         Club club = clubRepository.findByName(name).orElseThrow(() -> new RuntimeException("Club not found"));
         ClubMember clubMember = new ClubMember();
         clubMember.setClub(club);
@@ -63,7 +63,7 @@ public class ClubService {
         clubRepository.deleteById(id);
     }
 
-    public void leave(String name, User user){
+    public void leave(String name, User user) {
         Club club = clubRepository.findByName(name).orElseThrow(() -> new RuntimeException("Club not found"));
         ClubMember clubMember = clubMemberRepository.findByUserAndClub(user, club).orElseThrow(() -> new RuntimeException("User is not a member of this club"));
         clubMemberRepository.delete(clubMember);
@@ -98,5 +98,14 @@ public class ClubService {
 
     public Object checkMembership(Long id, User user) {
         return clubMemberRepository.findByUserAndClub(user, clubRepository.findById(id).orElseThrow(() -> new RuntimeException("Club not found"))).isPresent();
+    }
+
+    public List<ClubDTO> getUserClubs(User user) {
+        List<ClubMember> clubMembers = clubMemberRepository.findByUser(user);
+        List<ClubDTO> clubs = new ArrayList<>();
+        for (ClubMember clubMember : clubMembers) {
+            clubs.add(clubMember.getClubDTO());
+        }
+        return clubs;
     }
 }

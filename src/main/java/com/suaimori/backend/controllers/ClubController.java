@@ -10,6 +10,7 @@ import com.suaimori.backend.services.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,14 @@ public class ClubController {
         var idOfAll = clubService.getAllId();
         return ResponseEntity.ok(idOfAll);
     }
+
+    @GetMapping("/getuserclubs/{username}")
+    public ResponseEntity<?> getUserClubs(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        var userClubs = clubService.getUserClubs(user);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(userClubs);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getClub(@PathVariable Long id, @RequestParam List<String> fields) {
@@ -61,7 +70,7 @@ public class ClubController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/leave")
+    @PostMapping("/leave")
     public ResponseEntity<?> leaveClub(@RequestBody ClubJoinRequest request) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findByUsername(userDetails.getUsername());
