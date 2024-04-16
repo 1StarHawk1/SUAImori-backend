@@ -95,4 +95,8 @@ public class ClubService {
         TypedQuery<Tuple> query = entityManager.createQuery(cq);
         return query.getResultList();
     }
+
+    public Object checkMembership(Long id, User user) {
+        return clubMemberRepository.findByUserAndClub(user, clubRepository.findById(id).orElseThrow(() -> new RuntimeException("Club not found"))).isPresent();
+    }
 }

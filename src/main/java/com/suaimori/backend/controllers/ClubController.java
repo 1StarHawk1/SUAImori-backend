@@ -38,6 +38,13 @@ public class ClubController {
         return ResponseEntity.ok(JsonConverterHelper.convertTupleListToJson(club));
     }
 
+    @GetMapping("/checkmembership/{id}")
+    public ResponseEntity<?> checkMembership(@PathVariable Long id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+        return ResponseEntity.ok(clubService.checkMembership(id, user));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createClub(@Valid @RequestBody ClubDTO clubDTO) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

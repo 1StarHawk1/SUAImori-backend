@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClubJoinRequest {
     private String name;
+    private String username;
 }

@@ -66,4 +66,12 @@ public class UserListService {
     public List<UserListDTO> getUserLists(String username) {
         return userListRepository.getAllUserLists(username);
     }
+
+    public List<?> getTitles(Long id) {
+        return userListRepository.getTitles(id);
+    }
+
+    public UserList getList(Long id) {
+        return userListRepository.findById(id).orElseThrow(() -> new RuntimeException("UserList not found"));
+    }
 }

@@ -35,6 +35,18 @@ public class UserListController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(userLists);
     }
 
+    @GetMapping("/gettitles/{id}")
+    public ResponseEntity<?> getTitles(@PathVariable Long id) {
+        List<?> titles = userListService.getTitles(id);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(titles);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getList(@PathVariable Long id) {
+        UserList userList = userListService.getList(id);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(userList);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createList(@RequestBody UserListDTO userListDTO) throws ChangeSetPersister.NotFoundException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
