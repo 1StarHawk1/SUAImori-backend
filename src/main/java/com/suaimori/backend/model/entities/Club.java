@@ -32,8 +32,6 @@ public class Club {
     @Column
     private Boolean isVisible;
 
-//    @ManyToMany(mappedBy = "clubs", fetch = FetchType.LAZY)
-//    private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
     private List<ClubMember> clubMembers = new ArrayList<>();

@@ -41,7 +41,7 @@ public class Title {
     @Column
     private Date complitionDate;
 
-    @Column
+    @Column(columnDefinition="TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -79,23 +79,8 @@ public class Title {
 
     public Title(TitleDTO titleDTO){
         updateFromDto(titleDTO);
-        //this.setFranchise(titleDTO.getFranchise());
-        //this.setAuthors(convertToAuthorEntityList(titleDTO.getAuthors()));
-
-        //this.setMediaCompanies(convertToMediaCompanyEntityList(titleDTO.getMediaCompanies()));
     }
 
-//    public List<Author> convertToAuthorEntityList(List<AuthorForTitleDTO> authorForTitleDTOList) {
-//        return authorForTitleDTOList.stream()
-//                .map(AuthorForTitleDTO::convertToEntity)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public List<MediaCompany> convertToMediaCompanyEntityList(List<MediaCompanyForTitleDTO> mediaCompanyForTitleDTOList) {
-//        return mediaCompanyForTitleDTOList.stream()
-//                .map(MediaCompanyForTitleDTO::convertToEntity)
-//                .collect(Collectors.toList());
-//    }
 
     public Title() {
     }
