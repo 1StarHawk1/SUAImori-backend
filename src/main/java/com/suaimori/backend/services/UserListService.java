@@ -28,7 +28,7 @@ public class UserListService {
         return userListRepository.save(userList);
     }
 
-    public void addTitle(Long ListId, Long titleId){
+    public void addTitle(Long ListId, Long titleId) {
         UserList userList = userListRepository.findById(ListId).orElseThrow(() -> new RuntimeException("UserList not found"));
         userList.addTitle(titleRepository.findById(titleId).orElseThrow(() -> new RuntimeException("Title not found")));
 
@@ -71,7 +71,12 @@ public class UserListService {
         return userListRepository.getTitles(id);
     }
 
-    public UserList getList(Long id) {
-        return userListRepository.findById(id).orElseThrow(() -> new RuntimeException("UserList not found"));
+    public UserListDTO getList(Long id) {
+        UserList userList = userListRepository.findById(id).orElseThrow(() -> new RuntimeException("UserList not found"));
+        UserListDTO userListDTO = new UserListDTO();
+        userListDTO.setId(userList.getId());
+        userListDTO.setName(userList.getName());
+        userListDTO.setIsVisible(userList.getIsVisible());
+        return userListDTO;
     }
 }

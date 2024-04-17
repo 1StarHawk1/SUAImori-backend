@@ -59,14 +59,21 @@ public class ClubService {
     }
 
     public void delete(Long id) {
-        clubMemberRepository.deleteByClub(clubRepository.findById(id).orElseThrow(() -> new RuntimeException("Club not found")));
-        clubRepository.deleteById(id);
+        Club club = clubRepository.findById(id).orElseThrow(() -> new RuntimeException("Club not found"));
+        if(clubMemberRepository.findByClub(club).isEmpty()){
+            clubRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Club has members, cannot delete");
+        }
     }
 
     public void leave(String name, User user) {
         Club club = clubRepository.findByName(name).orElseThrow(() -> new RuntimeException("Club not found"));
         ClubMember clubMember = clubMemberRepository.findByUserAndClub(user, club).orElseThrow(() -> new RuntimeException("User is not a member of this club"));
         clubMemberRepository.delete(clubMember);
+        if(clubMemberRepository.findByClub(club).isEmpty()){
+            clubRepository.delete(club);
+        }
     }
 
     public void update(Long id, ClubDTO clubDTO) {

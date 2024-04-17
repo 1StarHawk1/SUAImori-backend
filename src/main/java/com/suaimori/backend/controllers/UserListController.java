@@ -43,7 +43,7 @@ public class UserListController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getList(@PathVariable Long id) {
-        UserList userList = userListService.getList(id);
+        UserListDTO userList = userListService.getList(id);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(userList);
     }
 
