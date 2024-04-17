@@ -1,5 +1,6 @@
 package com.suaimori.backend.services;
 
+import com.suaimori.backend.model.dto.UserDTO;
 import com.suaimori.backend.model.entities.Role;
 import com.suaimori.backend.model.entities.RoleType;
 import com.suaimori.backend.model.entities.Title;
@@ -137,5 +138,15 @@ public class UserService implements UserDetailsService {
 
         TypedQuery<Tuple> query = entityManager.createQuery(cq);
         return query.getResultList();
+    }
+
+    public void updateUser(String username, UserDTO userDTO) {
+        User user = findByUsername(username);
+        user.setEmail(userDTO.getEmail());
+        user.setNickname(userDTO.getNickname());
+        user.setDescription(userDTO.getDescription());
+        user.setAvatarURL(userDTO.getAvatarURL());
+        user.setProfileWallpaperURL(userDTO.getProfileWallpaperURL());
+        userRepository.save(user);
     }
 }

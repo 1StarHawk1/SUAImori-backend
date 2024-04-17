@@ -1,6 +1,7 @@
 package com.suaimori.backend.controllers;
 
 import com.suaimori.backend.helpers.JsonConverterHelper;
+import com.suaimori.backend.model.dto.UserDTO;
 import com.suaimori.backend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,4 +22,9 @@ public class UserController {
         return ResponseEntity.ok(JsonConverterHelper.convertTupleListToJson(user));
     }
 
+    @PutMapping("/{username}")
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody UserDTO userDTO) {
+        userService.updateUser(username, userDTO);
+        return ResponseEntity.ok().build();
+    }
 }
