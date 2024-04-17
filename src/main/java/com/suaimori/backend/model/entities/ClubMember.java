@@ -25,6 +25,7 @@ public class ClubMember {
 
     public ClubDTO getClubDTO() {
         return new ClubDTO(
+                club.getId(),
                 club.getName(),
                 club.getDescription(),
                 club.getImageURL(),

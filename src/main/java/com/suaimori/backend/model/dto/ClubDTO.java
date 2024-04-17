@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClubDTO {
+    private Long id;
     private String name;
     private String description;
     private String imageURL;
