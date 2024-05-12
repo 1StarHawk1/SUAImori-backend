@@ -77,6 +77,7 @@ public class UserListService {
         userListDTO.setId(userList.getId());
         userListDTO.setName(userList.getName());
         userListDTO.setIsVisible(userList.getIsVisible());
+        userListDTO.setUsername(userList.getUser().getUsername());
         return userListDTO;
     }
 }

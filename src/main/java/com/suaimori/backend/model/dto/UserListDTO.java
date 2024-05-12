@@ -12,5 +12,12 @@ public class UserListDTO {
     private Long id;
     private String name;
     private Boolean isVisible;
+    private String username;
     //private UserForListDTO user;
+
+    public UserListDTO(Long id, String name, Boolean isVisible) {
+        this.id = id;
+        this.name = name;
+        this.isVisible = isVisible;
+    }
 }
