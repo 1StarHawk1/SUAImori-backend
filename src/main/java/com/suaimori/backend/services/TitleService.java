@@ -39,26 +39,31 @@ public class TitleService {
     public Title create(TitleDTO titleDTO) throws ChangeSetPersister.NotFoundException {
         Title title = new Title(titleDTO);
 
-        List<Author> authors = new ArrayList<>();
-        for (AuthorForTitleDTO author : titleDTO.getAuthors()) {
-            authors.add(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).orElseThrow(
+        if(title.getAuthors() != null){
+            List<Author> authors = new ArrayList<>();
+            for (AuthorForTitleDTO author : titleDTO.getAuthors()) {
+                authors.add(authorRepository.findByFirstNameAndSecondName(author.getFirstName(), author.getSecondName()).orElseThrow(
+                        () -> new ChangeSetPersister.NotFoundException()
+                ));
+            }
+            title.setAuthors(authors);
+        }
+
+        if(title.getMediaCompanies() != null){
+            List<MediaCompany> mediaCompanies = new ArrayList<>();
+            for (MediaCompanyForTitleDTO mediaCompany : titleDTO.getMediaCompanies()) {
+                mediaCompanies.add(mediaCompanyRepository.findByName(mediaCompany.getName()).orElseThrow(
+                        () -> new ChangeSetPersister.NotFoundException()
+                ));
+            }
+            title.setMediaCompanies(mediaCompanies);
+        }
+
+        if(!titleDTO.getFranchise().getName().equals("N/A")){
+            title.setFranchise(franchiseRepository.findByName(titleDTO.getFranchise().getName()).orElseThrow(
                     () -> new ChangeSetPersister.NotFoundException()
             ));
         }
-        title.setAuthors(authors);
-
-        List<MediaCompany> mediaCompanies = new ArrayList<>();
-        for (MediaCompanyForTitleDTO mediaCompany : titleDTO.getMediaCompanies()) {
-            mediaCompanies.add(mediaCompanyRepository.findByName(mediaCompany.getName()).orElseThrow(
-                    () -> new ChangeSetPersister.NotFoundException()
-            ));
-        }
-        title.setMediaCompanies(mediaCompanies);
-
-        title.setFranchise(franchiseRepository.findByName(titleDTO.getFranchise().getName()).orElseThrow(
-                () -> new ChangeSetPersister.NotFoundException()
-        ));
-
         if (titleRepository.findByName(title.getName()).isPresent() && titleRepository.findByType(title.getType()).contains(title)) {
             throw new RuntimeException("Title already exists");
         }
